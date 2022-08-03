@@ -32,7 +32,7 @@ def checkBatchIDDuplicates(valid):
         else:
             batchIDs.append(data[row][0])
 
-        return valid
+    return valid
 
 def checkValues(valid):
     for row in data:
@@ -40,7 +40,7 @@ def checkValues(valid):
             if len(item) == 0 or item.isspace():
                 valid = False
             else:
-                if isFloat(item):
+                if isFloat(item) and not item.isdigit() and not item.isalnum():
                     if float(item) >= 10:
                         valid = False
                     elif(format(float(item),".3f") != item):  # Check if 3dp
@@ -55,6 +55,7 @@ def checkMalformed(valid):
             rowItemCounter = rowItemCounter + 1
         if(rowItemCounter != 12):  # Not enough columns for correct format!
             valid = False
+
     return valid
 
 def connectServer():
@@ -132,7 +133,6 @@ def validateFile():
         else:
             print(filename+": FILE VALID")
             fileDate = date.today().strftime('%Y/%m/%d')
-            print("Date path: "+fileDate)
             newpath = "validated-files/"+fileDate
             if not os.path.exists(newpath):
                 os.makedirs(newpath)

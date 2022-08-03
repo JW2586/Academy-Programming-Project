@@ -187,10 +187,10 @@ def validateFile(yearInp,monthInp,dayInp): # Runs all the various validation met
         valid = checkMalformed(valid)
         filesValidated += 1
         if valid == False:
-            print("File invalid")
+            print(filename+": FILE INVALID")
             os.remove("temp-downloads/"+filename)
         else:
-            print("File valid")
+            print(filename+": FILE VALID")
             fileDate = year+"/"+month+"/"+date
             newpath = "validated-files/"+fileDate
             if not os.path.exists(newpath):
@@ -237,12 +237,7 @@ def checkValues(valid):  # Make sure values are valid ints of 3dp
             if len(item) == 0 or item.isspace():
                 valid = False
             else:
-                if item.isdigit():
-                    bob = 0
-                elif item.isalnum():
-                    bob = 0
-                elif isFloat(item):
-                    bob = 0
+                if isFloat(item) and not item.isdigit() and not item.isalnum():
                     if float(item) >= 10:
                         valid = False
                     elif (format(float(item), ".3f") != item):  # Check if 3dp

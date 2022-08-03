@@ -30,11 +30,10 @@ def checkBatchIDDuplicates(valid):
     for row in range(1, len(data)):
         if data[row][0] in batchIDs:
             valid = False
-            
         else:
             batchIDs.append(data[row][0])
 
-        return valid
+    return valid
 
 def checkValues(valid):
     for row in data:
@@ -42,26 +41,22 @@ def checkValues(valid):
             if len(item) == 0 or item.isspace():
                 valid = False
             else:
-                if item.isdigit():
-                    bob = 0
-                elif item.isalnum():
-                    bob = 0
-                elif isFloat(item):
-                    bob = 0
+                if isFloat(item) and not item.isdigit() and not item.isalnum():
                     if float(item) >= 10:
                         valid = False
-                    elif(format(float(item),".3f") != item):  #Check if 3dp
+                    elif(format(float(item),".3f") != item):  # Check if 3dp
                         valid = False
 
     return valid
 
 def checkMalformed(valid):
     for row in data:
-        rowItemCounter = 0  ## Count items in row
+        rowItemCounter = 0  # Count items in row
         for item in row:
-            rowItemCounter = rowItemCounter + 1;
-        if(rowItemCounter != 12):  #Not enough colunms for correct format!
+            rowItemCounter = rowItemCounter + 1
+        if(rowItemCounter != 12):  # Not enough columns for correct format!
             valid = False
+
     return valid
 
 def connectServer():
@@ -168,6 +163,8 @@ def validateFile():
         global data
         data = list(csv.reader(openFile))
         openFile.close()
+
+        # VALIDATION
         valid = checkHeaders(valid)
         valid = checkBatchIDDuplicates(valid)
         valid = checkValues(valid)
