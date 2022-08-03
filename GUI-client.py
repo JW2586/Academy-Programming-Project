@@ -117,6 +117,8 @@ def downloadFile():
         filesFound = 0
         formattedDate = year+month+date
         ftp.cwd('/ftpserver/ftpFiles')
+        if not os.path.exists('temp-downloads'):
+                os.mkdir('temp-downloads')
         os.chdir('temp-downloads')
         for filename in ftp.nlst():
             if re.search("MED_DATA_"+formattedDate+"[0-9]{6}.csv", filename):
@@ -156,6 +158,8 @@ def validateFile():
     text_servermsg.insert(END,"\n")
     text_servermsg.insert(END,"Validating files...")
     directory = "temp-downloads"
+    if not os.path.exists('temp-downloads'):
+                os.mkdir('temp-downloads')
     filesValidated = 0
     for filename in os.listdir(directory):
         valid = True

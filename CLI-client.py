@@ -96,18 +96,20 @@ def downloadFile():  # Downloads files from selected date and calls validation m
     month = getMonth()
     date = getDay()
     if len(year) == 0 or year.isspace():
-        print("Year cant be empty!")
+        print("Year cannot be empty")
         canDownload = False
     if len(month) == 0 or month.isspace():
-        print("Month cant be empty")
+        print("Month cannot be empty")
         canDownload = False
     if len(date) == 0 or date.isspace():
-        print("day cant be empty")
+        print("Date cannot be empty")
         canDownload = False
     if canDownload == True:
         filesFound = 0
         formattedDate = year + month + date
         ftp.cwd('/ftpserver/ftpFiles')
+        if not os.path.exists('temp-downloads'):
+                os.mkdir('temp-downloads')
         os.chdir('temp-downloads')
         for filename in ftp.nlst():
             if re.search("MED_DATA_" + formattedDate + "[0-9]{6}.csv", filename):
@@ -173,6 +175,8 @@ def validateFile(yearInp,monthInp,dayInp): # Runs all the various validation met
     date = dayInp
     print("Validating files...")
     directory = "temp-downloads"
+    if not os.path.exists('temp-downloads'):
+                os.mkdir('temp-downloads')
     filesValidated = 0
     for filename in os.listdir(directory):
         valid = True
