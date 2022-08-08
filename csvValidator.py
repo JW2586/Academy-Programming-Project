@@ -59,4 +59,4 @@ def checkValues():
                         print("EXCEED")
                         print(item)
                         ##SCRAP FILE##
-                    elif 
+                    
