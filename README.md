@@ -16,7 +16,7 @@ To begin me and jake decided to formulate a plan on how we would work on our pro
 * Develop the logic to filter the CSV files
 * Tie the programs together and finish
 
-## Actual Implementation
+## Program Development
 
 ### Plan languages and general Structure
 
@@ -114,7 +114,20 @@ So jake found a python library that could do it and implamented that in the end.
 ### Client Development
 
 Up to this stage we had tested the servers using filezilla client programs, we now needed to implament the client program ourselves.
-We decided to use Tkinter to build the GUI which also outputs to command line as well ....
+We decided to use Tkinter to build the GUI which also outputs to command line as well. 
+
+[PHOTO OF TKINTER CLIENT HERE]
+
+### CSV sorting Logic
+
+To sort the CSV files we made a python scrypt that will firstly...
+
+### Implamentation
+
+Talk about how we wrapped it all up together 
+
+## 
+
 
 
 ## Git-Hub Links
