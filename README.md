@@ -1,5 +1,15 @@
 # Academy Programming Project
-
+## Table of Contents
+- [Introduction](#introduction)
+- [Plan](#plan)
+- [Program Development](#program-development)
+  - [Plan languages and general Structure](#plan-languages-and-general-structure)
+  - [Server Development](#server-development)
+  - [Client Development](#client-development)
+  - [CSV sorting Logic](#csv-sorting-logic)
+  - [Implementation](#implementation)
+- [Git-Hub Links](#git-hub-links)
+  
 ## Introduction
 
 The project brief is that we creat a client-side application that (using ftp) allows staff from a Medical School to download data in both a scheduled and interactive manner.
@@ -122,13 +132,9 @@ We decided to use Tkinter to build the GUI which also outputs to command line as
 
 To sort the CSV files we made a python scrypt that will firstly...
 
-### Implamentation
+### Implementation
 
 Talk about how we wrapped it all up together 
-
-## 
-
-
 
 ## Git-Hub Links
 
