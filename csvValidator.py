@@ -79,4 +79,18 @@ def checkRounded3DP():
                 print("item")
             else:
                 print("Scrapping File")
-                
+
+def checkMalformed():
+    for row in data:
+        rowItemCounter = 0  ## Count items in row
+        for item in row:
+            rowItemCounter = rowItemCounter + 1;
+        if(rowItemCounter != 12):  #Not enough colunms for correct format!
+            print("File malformed")
+            ## scrap file
+        
+
+
+
+
+
