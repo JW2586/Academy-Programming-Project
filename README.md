@@ -138,8 +138,8 @@ Talk about how we wrapped it all up together
 
 ## GitHub Links
 
-Fine-ftp : https://github.com/eclipse-ecal/fineftp-server/blob/master/README.md
-Ftp server : https://github.com/DaHoC/ftpserver
+- Fine-ftp : https://github.com/eclipse-ecal/fineftp-server/blob/master/README.md
+- Ftp server : https://github.com/DaHoC/ftpserver
 
 
 
