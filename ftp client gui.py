@@ -1,10 +1,92 @@
 from curses.ascii import isspace
+from importlib.metadata import files
 import tkinter
 from tkinter import BOTH, END, LEFT
 import ftplib
 import os
 import re
+import csv
 ftp = ftplib.FTP()
+
+def isFloat(num):
+    try:
+        float(num)
+        return True
+    except ValueError:
+        return False
+
+
+def printFile():
+    for row in data:
+        print(row)
+
+
+def checkHeaders(valid):
+    # print(data[0])
+    headerTemplate = ['batch_id', 'timestamp', 'reading1', 'reading2', 'reading3', 'reading4', 'reading5', 'reading6',
+                      'reading7', 'reading8', 'reading9', 'reading10']
+    if data[0] != headerTemplate:
+        valid = False
+    
+    return valid
+        # data[0] = headerTemplate
+
+def checkBatchIDDuplicates(valid):
+    batchIDs = []
+    for row in range(1, len(data)):
+        if data[row][0] in batchIDs:
+            # print("duplicate")
+            valid = False
+            # print("INVALID FILE")
+            
+        else:
+            batchIDs.append(data[row][0])
+
+        return valid
+
+def checkValues(valid):
+    # print("IS IT VALID: ",valid)
+    for row in data:
+        for item in row:
+            if len(item) == 0 or item.isspace():
+                # print("empty item")
+                # print("INVALID FILE")
+                valid = False
+            else:
+                if item.isdigit():
+                    bob = 0
+                    # print("number")
+                elif item.isalnum():
+                    bob = 0
+                    # print("string")
+                elif isFloat(item):
+                    bob = 0
+                    # print("float")
+                    if float(item) >= 10:
+                        # print("EXCEED")
+                        # print(item)
+                        valid = False
+                        # print("INVALID FILE")
+                        ##SCRAP FILE##
+                    elif(format(float(item),".3f") != item):  #Check if 3dp
+                        # print(float(item))
+                        # print("NOT 3dp")
+                        valid = False
+                        # print("INVALID FILE")
+
+    return valid
+
+def checkMalformed(valid):
+    for row in data:
+        rowItemCounter = 0  ## Count items in row
+        for item in row:
+            rowItemCounter = rowItemCounter + 1;
+        if(rowItemCounter != 12):  #Not enough colunms for correct format!
+            # print("File malformed")
+            valid = False
+            # print("INVALID FILE")
+            ## scrap file
+    return valid
 
 def connectServer():
     ip = ent_ip.get()
@@ -18,10 +100,6 @@ def connectServer():
         lbl_pass.place(x=150,y=70)
         ent_pass.place(x=150,y=93)
         btn_login.place(x=182,y=120)
-        # lbl_input.place(x=280,y=20)
-        # ent_input.place(x=280,y=43)
-        # btn_downfile.place(x=280,y=80)
-        # btn_disconnect.place(x=280,y=120)
     except:
         text_servermsg.insert(END,"\n")
         text_servermsg.insert(END,"Unable to connect")
@@ -33,21 +111,21 @@ def loginServer():
         msg = ftp.login(user,password)
         text_servermsg.insert(END,"\n")
         text_servermsg.insert(END,msg)
-        lbl_input.place(x=280,y=20)
+        year_lbl.place(x=280,y=20)
         year_input.place(x=280,y=43)
-        month_input.place(x=280,y=83)
-        date_input.place(x=280,y=123)
-        btn_downfile.place(x=280,y=140)
-        btn_disconnect.place(x=280,y=160)
-        btn_exit.place(x=280,y=200)
+        month_lbl.place(x=280,y=70)
+        month_input.place(x=280,y=93)
+        date_lbl.place(x=280,y=120)
+        date_input.place(x=280,y=143)
+        btn_downfile.place(x=280,y=170)
+        btn_disconnect.place(x=150,y=585)
+        btn_exit.place(x=280,y=585)
     except Exception as e:
         print("ERROR: ", e)
         text_servermsg.insert(END,"\n")
         text_servermsg.insert(END,"Unable to login")
     
 def downloadFile():
-    ## file name validation here
-    
     canDownload = True
     year = year_input.get()
     month = month_input.get()
@@ -65,40 +143,85 @@ def downloadFile():
         text_servermsg.insert(END,"Date cannot be empty")
         canDownload = False
     if canDownload == True:
+        filesFound = 0
         formattedDate = year+month+date
-        print("FORMATTED DATE: "+formattedDate)
+        # print("FORMATTED DATE: "+formattedDate)
         ftp.cwd('/ftpserver/ftpFiles')
-        print(ftp.pwd())
+        # print(ftp.pwd())
         os.chdir('temp-downloads')
         for filename in ftp.nlst():
-            print(filename)
+            # print(filename)
             if re.search("MED_DATA_"+formattedDate+"[0-9]{6}.csv", filename):
-                print("MATCH!!!!")
-                print("Downloading " + filename, end=" | ")
+                # print("MATCH!!!!")
+                filesFound += 1
+                text_servermsg.insert(END,"\n")
+                text_servermsg.insert(END,"Downloading " + filename)
                 
                 with open(filename, 'wb') as file_handle:
-                    ftp.retrbinary("RETR " + filename, file_handle.write)
-                    print("finished")
-        os.chdir('..')
+                    try:
+                        ftp.retrbinary("RETR " + filename, file_handle.write)
+                        # print("finished")
+                    except:
+                        text_servermsg.insert(END,"\n")
+                        text_servermsg.insert(END,"Unable to download file")                        
+        
+        if filesFound > 0:
+            text_servermsg.insert(END,"\n")
+            text_servermsg.insert(END,"Downloaded "+str(filesFound)+" files")
+            text_servermsg.insert(END,"\n")
+            text_servermsg.insert(END,"Files from requested date downloaded")
+            btn_validate.place(x=280,y=200)
+            os.chdir('..')
+        else:
+            text_servermsg.insert(END,"\n")
+            text_servermsg.insert(END,"That file doesn't exist!")
+            os.chdir('..')
+
+
                 
     else:
         text_servermsg.insert(END,"\n")
         text_servermsg.insert(END,"You must enter a date!")
-
-
-
     
-    # down = open(file, "wb")
-    # try
-    #     text_servermsg.insert(END,"\n")
-    #     text_servermsg.insert(END,"Downloading " + file + "...")
-    #     text_servermsg.insert(END,"\n")
-    #     text_servermsg.insert(END,ftp.retrbinary("RETR " + file, down.write))
-    # except:
-    #     text_servermsg.insert(END,"\n")
-    #     text_servermsg.insert(END,"Unable to download file")
+def validateFile():
+    year = year_input.get()
+    month = month_input.get()
+    date = date_input.get()
+    formattedDate = year+month+date
+    text_servermsg.insert(END,"\n")
+    text_servermsg.insert(END,"Validating files...")
+    directory = "temp-downloads"
+    for filename in os.listdir(directory):
+        valid = True
+        # print(filename)
+        openFile = open("temp-downloads/"+filename, "rt")
+        global data
+        data = list(csv.reader(openFile))
+        openFile.close()
+        # VALIDATION
+        # printFile()
+        valid = checkHeaders(valid)
+        valid = checkBatchIDDuplicates(valid)
+        valid = checkValues(valid)
+        valid = checkMalformed(valid)
+        if valid == False:
+            text_servermsg.insert(END,"\n")
+            text_servermsg.insert(END,filename+": FILE INVALID")
+            os.remove("temp-downloads/"+filename)
+            # text_servermsg.insert(END,"\n")
+            # text_servermsg.insert(END,filename+": FILE DELETED")
+        else:
+            text_servermsg.insert(END,"\n")
+            text_servermsg.insert(END,filename+": FILE VALID")
+            fileDate = year+"/"+month+"/"+date
+            newpath = "validated-files/"+fileDate
+            if not os.path.exists(newpath):
+                os.makedirs(newpath)
+            os.rename(os.path.join("temp-downloads", filename), os.path.join(newpath, filename))
+            # text_servermsg.insert(END,"\n")
+            # text_servermsg.insert(END,filename+": FILE SAVED")
     
-    
+
 def closeConnection():
     try:
         text_servermsg.insert(END,"\n")
@@ -115,39 +238,43 @@ def exit():
 window = tkinter.Tk()
 window.title("FTP Client")
 window.wm_iconbitmap("favicon.ico")
-window.geometry("420x600")
+window.geometry("420x620")
 window.configure(bg='#2e2e2e')
 
-#Connect
+#Buttons to connect to FTP cerver
 lbl_ip = tkinter.Label(window, text="IP Address")
 ent_ip = tkinter.Entry(window)
 lbl_port = tkinter.Label(window, text="Port")
 ent_port = tkinter.Entry(window)
 btn_connect = tkinter.Button(window, text="Connect", command=connectServer)
 
-#Server response text box
-text_servermsg = tkinter.Text(window,width=45,height=20)
+#Output commands from server
+text_servermsg = tkinter.Text(window,width=47,height=20)
 
-#Login
+#Buttons for logging in
 lbl_login = tkinter.Label(window, text="Username")
 ent_login = tkinter.Entry(window)
 lbl_pass = tkinter.Label(window, text="Password")
 ent_pass = tkinter.Entry(window)
 btn_login = tkinter.Button(window, text="Login", command=loginServer)
 
-#Directory listing
-lbl_dir = tkinter.Label(window, text="Directory listing:")
-libox_serverdir = tkinter.Listbox(window,width=40,height=14)
-
-#Options
-lbl_input = tkinter.Label(window, text="Enter date:")
+#Inputs
 year_input = tkinter.Entry(window)
+year_lbl = tkinter.Label(window, text="Year:")
 month_input = tkinter.Entry(window)
+month_lbl = tkinter.Label(window, text="Month:")
 date_input = tkinter.Entry(window)
-btn_downfile = tkinter.Button(window, text="Download File", command=downloadFile,width=15)
+date_lbl = tkinter.Label(window, text="Date:")
+
+#File handling buttons
+btn_downfile = tkinter.Button(window, text="Download Files", command=downloadFile,width=15)
+btn_validate = tkinter.Button(window, text="Validate Files", command=validateFile,width=15)
+
+#Quit buttons
 btn_disconnect = tkinter.Button(window, text="Disconnect", command=closeConnection,width=15)
 btn_exit = tkinter.Button(window, text="Exit", command=exit,width=15)
-#Place widgits
+
+#Place default widgets
 lbl_ip.place(x=20,y=20)
 ent_ip.place(x=20,y=43)
 lbl_port.place(x=20,y=70)

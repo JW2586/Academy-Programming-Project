@@ -53,7 +53,7 @@ def checkBatchIDDuplicates():
 def checkValues():
     for row in data:
         for item in row:
-            if len(year) == 0 or year.isspace():
+            if len(item) == 0 or item.isspace():
                 print("empty item")
             else:
                 if item.isdigit():
@@ -69,11 +69,15 @@ def checkValues():
                         print("EXCEED")
                         print(item)
                         ##SCRAP FILE##
+                    elif(format(float(item),".3f") != item):  #Check if 3dp
+                        print(float(item))
+                        print("NOT 3dp")
+                        
 
 def checkRounded3DP():
     for row in data:
         for item in row:
-            if len(year) == 0 or year.isspace():  # Check white space
+            if len(item) == 0 or item.isspace():  # Check white space
                 print("Empty")
             elif(format(item,".3f") == item):  #Check if 3dp
                 print("item")
