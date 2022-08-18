@@ -8,7 +8,7 @@
   - [Client Development](#client-development)
   - [CSV sorting Logic](#csv-sorting-logic)
   - [Implementation](#implementation)
-- [Git-Hub Links](#git-hub-links)
+- [GitHub Links](#github-links)
   
 ## Introduction
 
@@ -136,7 +136,7 @@ To sort the CSV files we made a python scrypt that will firstly...
 
 Talk about how we wrapped it all up together 
 
-## Git-Hub Links
+## GitHub Links
 
 Fine-ftp : https://github.com/eclipse-ecal/fineftp-server/blob/master/README.md
 Ftp server : https://github.com/DaHoC/ftpserver
