@@ -1,7 +1,14 @@
 # Academy Programming Project
 ## Table of Contents
-
-  
+- [Introduction](#introduction)
+- [Plan](#plan)
+- [Program Development](#program-development)
+  * [Plan languages and general Structure](#plan-languages-and-general-structure)
+  * [Server Development](#server-development)
+  * [GUI client development](#gui-client-development)
+    + [FTP client UX](#ftp-client-ux)
+    + [GUI client demo video](#gui-client-demo-video)
+    
 ## Introduction
 
 The project brief is that we create a client-side application that (using ftp) allows staff from a Medical School to download data in both a scheduled and interactive manner.
@@ -131,7 +138,7 @@ Jake began by finding an [open source python script](https://github.com/jbblacke
 - If a file fails to meet all of the requirements, it is deleted from the FTP client
 
 #### GUI client demo video
-[![Demo video](https://img.youtube.com/vi/ShHMeuhGfPA/0.jpg)](https://imgur.com/a/MhVdohV)
+[![Demo video](https://github.com/JW2586/Academy-Programming-Project/blob/main/Video%20thumbnail.jpg?raw=true)](https://imgur.com/a/MhVdohV)
 
 
 
