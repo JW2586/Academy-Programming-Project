@@ -1,8 +1,10 @@
+# Author: Sam M1
+
 import ftplib
 import os
+import re
+import csv
 ftp = ftplib.FTP()
-
-
 
 def main():  # Main menu (Start program or quit)
     while(True):
@@ -47,7 +49,6 @@ def clientMethod():  # Where most of the work is done
             uploadFile(fileName)
 
 ## Directory Methods ##
-
 def displayDir():  # Displays all the current files in the location of the ftp server
     print("-------------------------------------")
     dirlist = []
@@ -80,9 +81,7 @@ def deleteDirectory(directory):  # Deletes a directory
         print("Unable to remove directory")
     displayDir()
 
-
 ## File Methods ##
-
 def deleteFile(fileName): # Deletes a singular file
     try:
         msg = ftp.delete(fileName)
@@ -107,7 +106,7 @@ def downloadFile():  # Downloads files from selected date and calls validation m
     if canDownload == True:
         filesFound = 0
         formattedDate = year + month + date
-        ftp.cwd('/ftpFiles')
+        ftp.cwd('/ftpserver/ftpFiles')
         os.chdir('temp-downloads')
         for filename in ftp.nlst():
             if re.search("MED_DATA_" + formattedDate + "[0-9]{6}.csv", filename):
@@ -117,12 +116,11 @@ def downloadFile():  # Downloads files from selected date and calls validation m
                 with open(filename, 'wb') as file_handle:
                     try:
                         ftp.retrbinary("RETR " + filename, file_handle.write)
-                        print("finished")
                     except:
                         print("Unable to download file")
 
         if filesFound > 0:
-            print("Downloaded + " + str(filesFound))
+            print("Downloaded "+str(filesFound)+" files")
             print("Files downloaded successfully")
             os.chdir('..')
             validateFile(year,month,date)
@@ -142,7 +140,6 @@ def uploadFile(fileName):
 
 
 ## Connecting Methods (Connect, login and disconnect) ##
-
 def connectToServer(port, ipAddy):  # Makes connection to ftp server
     try:
         msg = ftp.connect(ipAddy, port)
@@ -169,14 +166,13 @@ def closeConnection():  # Ends the ftp connection
         print("Unable to disconnect")
 
 ## File Validation ##
-
 def validateFile(yearInp,monthInp,dayInp): # Runs all the various validation methods
     year = yearInp
     month = monthInp
     date = dayInp
-    formattedDate = year+month+date
     print("Validating files...")
     directory = "temp-downloads"
+    filesValidated = 0
     for filename in os.listdir(directory):
         valid = True
         openFile = open("temp-downloads/"+filename, "rt")
@@ -188,6 +184,7 @@ def validateFile(yearInp,monthInp,dayInp): # Runs all the various validation met
         valid = checkBatchIDDuplicates(valid)
         valid = checkValues(valid)
         valid = checkMalformed(valid)
+        filesValidated += 1
         if valid == False:
             print("File invalid")
             os.remove("temp-downloads/"+filename)
@@ -197,8 +194,13 @@ def validateFile(yearInp,monthInp,dayInp): # Runs all the various validation met
             newpath = "validated-files/"+fileDate
             if not os.path.exists(newpath):
                 os.makedirs(newpath)
-            os.rename(os.path.join("temp-downloads", filename), os.path.join(newpath, filename))
-
+            os.replace(os.path.join("temp-downloads", filename), os.path.join(newpath, filename))
+            
+    if filesValidated > 0:
+        print("Checked "+str(filesValidated)+" files")
+    else:
+        print("No files downloaded")
+        print("You must download files before validating")
 
 def isFloat(num):  # Checks a variable is a float
     try:
@@ -214,8 +216,6 @@ def checkHeaders(valid):  # Replaces header of csv file
         valid = False
 
     return valid
-
-
 
 def checkBatchIDDuplicates(valid):  # Check for duplicate batch ID
     batchIDs = []

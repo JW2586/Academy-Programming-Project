@@ -1,3 +1,5 @@
+# Author: Jake W
+
 from curses.ascii import isspace
 from importlib.metadata import files
 import tkinter
