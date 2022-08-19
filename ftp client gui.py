@@ -191,6 +191,7 @@ def validateFile():
     text_servermsg.insert(END,"\n")
     text_servermsg.insert(END,"Validating files...")
     directory = "temp-downloads"
+    filesValidated = 0
     for filename in os.listdir(directory):
         valid = True
         # print(filename)
@@ -204,6 +205,7 @@ def validateFile():
         valid = checkBatchIDDuplicates(valid)
         valid = checkValues(valid)
         valid = checkMalformed(valid)
+        filesValidated += 1
         if valid == False:
             text_servermsg.insert(END,"\n")
             text_servermsg.insert(END,filename+": FILE INVALID")
@@ -217,10 +219,18 @@ def validateFile():
             newpath = "validated-files/"+fileDate
             if not os.path.exists(newpath):
                 os.makedirs(newpath)
-            os.rename(os.path.join("temp-downloads", filename), os.path.join(newpath, filename))
+            os.replace(os.path.join("temp-downloads", filename), os.path.join(newpath, filename))
             # text_servermsg.insert(END,"\n")
             # text_servermsg.insert(END,filename+": FILE SAVED")
-    
+
+    if filesValidated > 0:
+        text_servermsg.insert(END,"\n")
+        text_servermsg.insert(END,"Checked "+str(filesValidated)+" files")
+    else:
+        text_servermsg.insert(END,"\n")
+        text_servermsg.insert(END,"No files downloaded")
+        text_servermsg.insert(END,"\n")
+        text_servermsg.insert(END,"You must download files before validating")
 
 def closeConnection():
     try:

@@ -1,24 +1,16 @@
 # Academy Programming Project
 ## Table of Contents
-- [Introduction](#introduction)
-- [Plan](#plan)
-- [Program Development](#program-development)
-  - [Plan languages and general Structure](#plan-languages-and-general-structure)
-  - [Server Development](#server-development)
-  - [Client Development](#client-development)
-  - [CSV sorting Logic](#csv-sorting-logic)
-  - [Implementation](#implementation)
-- [GitHub Links](#github-links)
+
   
 ## Introduction
 
-The project brief is that we creat a client-side application that (using ftp) allows staff from a Medical School to download data in both a scheduled and interactive manner.
+The project brief is that we create a client-side application that (using ftp) allows staff from a Medical School to download data in both a scheduled and interactive manner.
 
 >'It is envisaged that a client-side application is needed that allows the staff in the Medical school to securely download data in both a scheduled (cron/scheduled task) and interactive manner, e.g.,requesting data for a specific date(the default being "today").Data must be validated (see Task 3) before it is accepted, copied for investigation,and thensecurely archivedin a logical directory hierarchy.  It is vitally important that there are no accidentally duplicated data sets as this could create bias problems during analysis, therefore a tracking mechanism must be used to keep each set unique.'
 
 ## Plan
 
-To begin me and jake decided to formulate a plan on how we would work on our project. Firstly the order of development and who would do what. We decided to develop in this order:
+To begin we decided to formulate a plan on how we would work on our project. Firstly the order of development and who would do what. We decided to develop in this order:
 
 * Plan langauges and general structure first
 * Develop the server
@@ -30,14 +22,13 @@ To begin me and jake decided to formulate a plan on how we would work on our pro
 
 ### Plan languages and general Structure
 
-We decided that to begin I would try and make a CPP server, due to the fast nature and well documented librarys of the language. 
+We decided that to begin Sam would try to make an FTP server in C++, due to the fast nature and well documented librarys of the language. 
 Jake would code the processing of the CSV's in python to save time and complexity. The GUI would be coded in Python as well.
 
 ### Server Development 
+Sam started out with [fine-ftp server](https://github.com/eclipse-ecal/fineftp-server)- an open source C++ program. This allowed him to set up an ftp server with authentication as seen below
 
-I (sam) started out with one library in cpp known as 'fine-ftp server' that allowed me in give or take 10 lines of code to set up an ftp server with auth etc as seen below (From the git-hub cited below):
-
-```
+```cpp
 #include <fineftp/server.h>
 #include <thread>
  
@@ -65,13 +56,13 @@ This then would allow a working connection with both filezilla and powershell ft
 
 ![image](https://user-images.githubusercontent.com/110546631/183737642-94c055f7-afc0-4b43-9afe-af2a32f9fcec.png)
 
-But I came across a big issue, the servers couldent send anything beyond a simple handshake:
+But Sam came across a big issue, the servers couldn't send anything beyond a simple handshake:
 
 ![image](https://user-images.githubusercontent.com/110546631/183737958-f3f5e362-4311-41df-ac7c-ab20b4bd58f5.png)
 
-At the time I didn't know this so I moved onto a new cpp library that I could only use in linux due to the make file and the cpp structure (Github Linked at end of the document):
+At the time Sam didn't know this so he moved onto a [new C++ library](https://github.com/DaHoC/ftpserver) that he could only use in linux due to the make file and the C++ structure.
 
-```
+```cpp
 
 #include "ftpserver.h"
 
@@ -114,32 +105,34 @@ int main(int argc, char** argv) {
 }
 
 ```
-This would also run, but once again I came across the same issue in Kali as well :
+This would also run, but once again Sam came across the same issue in Kali as well :
 
 ![image](https://user-images.githubusercontent.com/110546631/183744538-79bfee90-6e7d-4d09-9993-404cf5771218.png)
 
-Worked out after a lot of testing that it was the firewalls in the end stopping the code from running!
-So jake found a python library that could do it and implamented that in the end.
+After a lot of testing Sam discovered that it was the firewalls stopping the code from running and the complexity of the C++ code made it hard to debug. We decided to switch to an FTP library in python - [pyftpdlib](https://pypi.org/project/pyftpdlib/)
 
-### Client Development
 
-Up to this stage we had tested the servers using filezilla client programs, we now needed to implament the client program ourselves.
-We decided to use Tkinter to build the GUI which also outputs to command line as well. 
 
-[PHOTO OF TKINTER CLIENT HERE]
+### GUI client development
+Up to this stage we had tested the servers using FileZilla client programs, we now needed to implement the client program ourselves.
+Jake began by finding an [open source python script](https://github.com/jbblackett/Python-GUI-FTP-Client)that created a tkinter graphical interface for an FTP client, he based our solution off of this, modifying it for our needs.
+#### FTP client UX
+- The FTP client begins by asking the user to connect to the FTP server and login with the required credentials.
+- The user then enters the date of the files they would like to download and clicks the `Download files` button
+- The FTP client then downloads the requested files from the FTP server and stores them in a temporary location called `temp-downloads/`
+- The user then clicks the `Validate files` button which checks the files against the following criteria
+	- Duplicated batch_ids
+	- Missing headers or misspelt/incorrect headers, e.g. "batch" rather than "batch_id"
+	- Missing columns on a row
+	- Invalid entries, e.g., reading values of 10 or greater
+	- Empty files (there are no "nil" returns)s
+	- Incorrectly formatted filenames
+- If a file meets all of the requirements, it is saved by moving it into the `validated-files/` folder, structuring the directory based on `YYYY/MM/DD/`
+- If a file fails to meet all of the requirements, it is deleted from the FTP client
 
-### CSV sorting Logic
+#### GUI client demo video
+[![Demo video](https://img.youtube.com/vi/ShHMeuhGfPA/0.jpg)](https://imgur.com/a/MhVdohV)
 
-To sort the CSV files we made a python scrypt that will firstly...
-
-### Implementation
-
-Talk about how we wrapped it all up together 
-
-## GitHub Links
-
-- Fine-ftp : https://github.com/eclipse-ecal/fineftp-server/blob/master/README.md
-- Ftp server : https://github.com/DaHoC/ftpserver
 
 
 
