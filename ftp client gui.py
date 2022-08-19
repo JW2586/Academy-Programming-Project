@@ -22,22 +22,18 @@ def printFile():
 
 
 def checkHeaders(valid):
-    # print(data[0])
     headerTemplate = ['batch_id', 'timestamp', 'reading1', 'reading2', 'reading3', 'reading4', 'reading5', 'reading6',
                       'reading7', 'reading8', 'reading9', 'reading10']
     if data[0] != headerTemplate:
         valid = False
     
     return valid
-        # data[0] = headerTemplate
 
 def checkBatchIDDuplicates(valid):
     batchIDs = []
     for row in range(1, len(data)):
         if data[row][0] in batchIDs:
-            # print("duplicate")
             valid = False
-            # print("INVALID FILE")
             
         else:
             batchIDs.append(data[row][0])
@@ -45,34 +41,21 @@ def checkBatchIDDuplicates(valid):
         return valid
 
 def checkValues(valid):
-    # print("IS IT VALID: ",valid)
     for row in data:
         for item in row:
             if len(item) == 0 or item.isspace():
-                # print("empty item")
-                # print("INVALID FILE")
                 valid = False
             else:
                 if item.isdigit():
                     bob = 0
-                    # print("number")
                 elif item.isalnum():
                     bob = 0
-                    # print("string")
                 elif isFloat(item):
                     bob = 0
-                    # print("float")
                     if float(item) >= 10:
-                        # print("EXCEED")
-                        # print(item)
                         valid = False
-                        # print("INVALID FILE")
-                        ##SCRAP FILE##
                     elif(format(float(item),".3f") != item):  #Check if 3dp
-                        # print(float(item))
-                        # print("NOT 3dp")
                         valid = False
-                        # print("INVALID FILE")
 
     return valid
 
@@ -82,10 +65,7 @@ def checkMalformed(valid):
         for item in row:
             rowItemCounter = rowItemCounter + 1;
         if(rowItemCounter != 12):  #Not enough colunms for correct format!
-            # print("File malformed")
             valid = False
-            # print("INVALID FILE")
-            ## scrap file
     return valid
 
 def connectServer():
@@ -145,14 +125,10 @@ def downloadFile():
     if canDownload == True:
         filesFound = 0
         formattedDate = year+month+date
-        # print("FORMATTED DATE: "+formattedDate)
         ftp.cwd('/ftpserver/ftpFiles')
-        # print(ftp.pwd())
         os.chdir('temp-downloads')
         for filename in ftp.nlst():
-            # print(filename)
             if re.search("MED_DATA_"+formattedDate+"[0-9]{6}.csv", filename):
-                # print("MATCH!!!!")
                 filesFound += 1
                 text_servermsg.insert(END,"\n")
                 text_servermsg.insert(END,"Downloading " + filename)
@@ -160,7 +136,6 @@ def downloadFile():
                 with open(filename, 'wb') as file_handle:
                     try:
                         ftp.retrbinary("RETR " + filename, file_handle.write)
-                        # print("finished")
                     except:
                         text_servermsg.insert(END,"\n")
                         text_servermsg.insert(END,"Unable to download file")                        
@@ -187,20 +162,16 @@ def validateFile():
     year = year_input.get()
     month = month_input.get()
     date = date_input.get()
-    formattedDate = year+month+date
     text_servermsg.insert(END,"\n")
     text_servermsg.insert(END,"Validating files...")
     directory = "temp-downloads"
     filesValidated = 0
     for filename in os.listdir(directory):
         valid = True
-        # print(filename)
         openFile = open("temp-downloads/"+filename, "rt")
         global data
         data = list(csv.reader(openFile))
         openFile.close()
-        # VALIDATION
-        # printFile()
         valid = checkHeaders(valid)
         valid = checkBatchIDDuplicates(valid)
         valid = checkValues(valid)
@@ -210,8 +181,6 @@ def validateFile():
             text_servermsg.insert(END,"\n")
             text_servermsg.insert(END,filename+": FILE INVALID")
             os.remove("temp-downloads/"+filename)
-            # text_servermsg.insert(END,"\n")
-            # text_servermsg.insert(END,filename+": FILE DELETED")
         else:
             text_servermsg.insert(END,"\n")
             text_servermsg.insert(END,filename+": FILE VALID")
@@ -220,8 +189,6 @@ def validateFile():
             if not os.path.exists(newpath):
                 os.makedirs(newpath)
             os.replace(os.path.join("temp-downloads", filename), os.path.join(newpath, filename))
-            # text_servermsg.insert(END,"\n")
-            # text_servermsg.insert(END,filename+": FILE SAVED")
 
     if filesValidated > 0:
         text_servermsg.insert(END,"\n")
