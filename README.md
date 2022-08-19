@@ -64,7 +64,7 @@ We decided that to begin Sam would try to make an FTP server in C++, due to the 
 Jake would code the processing of the CSV's in python to save time and complexity. The GUI would be coded in Python as well.
 
 ### Server Development 
-Sam started out with [fine-ftp server](https://github.com/eclipse-ecal/fineftp-server)- an open source C++ program. This allowed him to set up an ftp server with authentication as seen below
+Sam started out with [fine-ftp server](https://github.com/eclipse-ecal/fineftp-server) an open source C++ program. This allowed him to set up an ftp server with authentication as seen below
 
 ```cpp
 #include <fineftp/server.h>
@@ -153,7 +153,7 @@ After a lot of testing Sam discovered that it was the firewalls stopping the cod
 
 ### GUI client development
 Up to this stage we had tested the servers using FileZilla client programs, we now needed to implement the client program ourselves.
-Jake began by finding an [open source python script](https://github.com/jbblackett/Python-GUI-FTP-Client)that created a tkinter graphical interface for an FTP client, he based our solution off of this, modifying it for our needs.
+Jake began by finding an [open source python script](https://github.com/jbblackett/Python-GUI-FTP-Client) that created a tkinter graphical interface for an FTP client, he based our solution off of this, modifying it for our needs.
 #### FTP client UX
 - The FTP client begins by asking the user to connect to the FTP server and login with the required credentials.
 - The user then enters the date of the files they would like to download and clicks the `Download files` button
