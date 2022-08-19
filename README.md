@@ -1,36 +1,32 @@
 # Academy Programming Project
 ## Table of Contents
-- [Introduction](#introduction)
-- [Plan](#plan)
-- [Program Development](#program-development)
-  * [Plan languages and general Structure](#plan-languages-and-general-structure)
-  * [Server Development](#server-development)
-  * [GUI client development](#gui-client-development)
-    + [FTP client UX](#ftp-client-ux)
-    + [GUI client demo video](#gui-client-demo-video)
 
 ## Execution details
 ### FTP server
 This is the FTP server for the project, it holds the medical CSV files.
-Found in `/ftpserver/pythonftpserver.py`
-IP: `127.0.0.1`
-Port: `21`
-Username: `user`
-Password: `12345`
+- Found in `/ftpserver/pythonftpserver.py`
+- IP: `127.0.0.1`
+- Port: `21`
+- Username: `user`
+- Password: `12345`
 ### Command-line FTP client
 This is the command-line client for downloading and validating the CSV files from the FTP server
-Found in `CLI-client.py`
-[image]
+- Found in `CLI-client.py`
+
+![image](https://github.com/JW2586/Academy-Programming-Project/blob/main/Images/CLI-client.jpg?raw=true)
 ### Graphical FTP client
 This is the graphical user interface client for downloading and validating the CSV files from the FTP server
-Found in `GUI-client.py`
-[image]
+- Found in `GUI-client.py`
+
+![image](https://github.com/JW2586/Academy-Programming-Project/blob/main/Images/GUI-client.jpg?raw=true)
 ### Automatic FTP client
 This is the automatic client for downloading and validating the CSV files from the FTP server based on the current date. This can be scheduled to run daily via Windows Task Scheduler.
-Found in `auto-client.py`
-[image]
-[image]
+- Found in `auto-client.py`
 
+![image](https://github.com/JW2586/Academy-Programming-Project/blob/main/Images/task%20schedule.jpg?raw=true)
+
+![image](https://github.com/JW2586/Academy-Programming-Project/blob/main/Images/auto-client.jpg?raw=true)
+# Report
 ## Introduction
 
 The project brief is that we create a client-side application that (using ftp) allows staff from a Medical School to download data in both a scheduled and interactive manner.
