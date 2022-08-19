@@ -1,7 +1,14 @@
 # Academy Programming Project
 ## Table of Contents
-
-  
+- [Introduction](#introduction)
+- [Plan](#plan)
+- [Program Development](#program-development)
+  * [Plan languages and general Structure](#plan-languages-and-general-structure)
+  * [Server Development](#server-development)
+  * [GUI client development](#gui-client-development)
+    + [FTP client UX](#ftp-client-ux)
+    + [GUI client demo video](#gui-client-demo-video)
+    
 ## Introduction
 
 The project brief is that we create a client-side application that (using ftp) allows staff from a Medical School to download data in both a scheduled and interactive manner.
