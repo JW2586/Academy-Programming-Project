@@ -1,6 +1,19 @@
 # Academy Programming Project
 ## Table of Contents
-
+  * [Execution details](#execution-details)
+    + [FTP server](#ftp-server)
+    + [Command-line FTP client](#command-line-ftp-client)
+    + [Graphical FTP client](#graphical-ftp-client)
+    + [Automatic FTP client](#automatic-ftp-client)
+- [Report](#report)
+  * [Introduction](#introduction)
+  * [Plan](#plan)
+  * [Program Development](#program-development)
+    + [Plan languages and general Structure](#plan-languages-and-general-structure)
+    + [Server Development](#server-development)
+    + [GUI client development](#gui-client-development)
+      - [FTP client UX](#ftp-client-ux)
+      - [GUI client demo video](#gui-client-demo-video)
 ## Execution details
 ### FTP server
 This is the FTP server for the project, it holds the medical CSV files.
@@ -156,7 +169,7 @@ Jake began by finding an [open source python script](https://github.com/jbblacke
 - If a file fails to meet all of the requirements, it is deleted from the FTP client
 
 #### GUI client demo video
-[![Demo video](https://github.com/JW2586/Academy-Programming-Project/blob/main/Video%20thumbnail.jpg?raw=true)](https://imgur.com/a/MhVdohV)
+[![Demo video](https://github.com/JW2586/Academy-Programming-Project/blob/main/Images/Video%20thumbnail.jpg?raw=true)](https://imgur.com/a/MhVdohV)
 
 
 
