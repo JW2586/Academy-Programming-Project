@@ -131,7 +131,7 @@ Jake began by finding an [open source python script](https://github.com/jbblacke
 - If a file fails to meet all of the requirements, it is deleted from the FTP client
 
 #### GUI client demo video
-[![Demo video](https://img.youtube.com/vi/ShHMeuhGfPA/0.jpg)](https://imgur.com/a/MhVdohV)
+[![Demo video](https://github.com/JW2586/Academy-Programming-Project/blob/main/Video%20thumbnail.jpg?raw=true)](https://imgur.com/a/MhVdohV)
 
 
 
