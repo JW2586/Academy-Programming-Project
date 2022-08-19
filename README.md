@@ -36,6 +36,8 @@ This is the graphical user interface client for downloading and validating the C
 This is the automatic client for downloading and validating the CSV files from the FTP server based on the current date. This can be scheduled to run daily via Windows Task Scheduler.
 - Found in `auto-client.py`
 
+#### Task schedule:
+
 ![image](https://github.com/JW2586/Academy-Programming-Project/blob/main/Images/task%20schedule.jpg?raw=true)
 
 ![image](https://github.com/JW2586/Academy-Programming-Project/blob/main/Images/auto-client.jpg?raw=true)
