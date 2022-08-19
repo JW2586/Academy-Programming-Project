@@ -1,4 +1,4 @@
-# Academy Programming Project
+# Academy Programming Project - Jake W & Sam M1
 ## Table of Contents
   * [Execution details](#execution-details)
     + [FTP server](#ftp-server)
