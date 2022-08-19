@@ -15,12 +15,6 @@ def isFloat(num):
     except ValueError:
         return False
 
-
-def printFile():
-    for row in data:
-        print(row)
-
-
 def checkHeaders(valid):
     headerTemplate = ['batch_id', 'timestamp', 'reading1', 'reading2', 'reading3', 'reading4', 'reading5', 'reading6',
                       'reading7', 'reading8', 'reading9', 'reading10']
