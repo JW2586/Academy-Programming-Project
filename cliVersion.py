@@ -1,5 +1,6 @@
 # Author: Sam M1
 
+from fileinput import filename
 import ftplib
 import os
 import re
@@ -133,7 +134,7 @@ def downloadFile():  # Downloads files from selected date and calls validation m
 def uploadFile(fileName):
     try:
         up = open(fileName, "rb")
-        print("Uploading " + file)
+        print("Uploading " + fileName)
         ftp.storbinary("STOR " + fileName, up)
     except:
         print("Unable to upload file")
@@ -253,7 +254,7 @@ def checkMalformed(valid):  # Chech if colunms are formatted
     for row in data:
         rowItemCounter = 0  ## Count items in row
         for item in row:
-            rowItemCounter = rowItemCounter + 1;
+            rowItemCounter = rowItemCounter + 1
         if (rowItemCounter != 12):  # Not enough colunms for correct format!
             valid = False
     return valid
