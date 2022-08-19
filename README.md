@@ -116,7 +116,7 @@ This would also run, but once again Sam came across the same issue in Kali as we
 
 ![image](https://user-images.githubusercontent.com/110546631/183744538-79bfee90-6e7d-4d09-9993-404cf5771218.png)
 
-After a lot of testing Sam discovered that it was the firewalls stopping the code from running and the complexity of the C++ code made it hard to debug. We decided to switch to an FTP library in python - [pyftpdlib](https://pypi.org/project/pyftpdlib/)
+After a lot of testing Sam discovered that it was the firewalls stopping the code from running and the complexity of the C++ code made it hard to debug. We decided to switch to an FTP server library in python - [pyftpdlib](https://pypi.org/project/pyftpdlib/)
 
 
 
